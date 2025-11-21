@@ -10,4 +10,5 @@ ENUM TaxonomyName : string
     case TOUR_PERSON = 'tour_person';
     case TOUR_RATING = 'tour_rating';
     case TOUR_TYPE = 'tour_type';
+    case TOUR_DURATION = 'tour_duration';
 }

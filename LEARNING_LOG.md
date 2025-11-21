@@ -4,7 +4,24 @@
 
 - Đâu là cái khó nhất: Làm FE đặc biệt là có JavaScript, tôi hơi yếu do chưa va chạm với nó nhiều
 
+## Kiến thức cần bổ xung
 
+Design Parrtern
+- Creational Patterns (Tạo đối tượng): Singleton, Factory Method, Abstract Factory, Builder, Prototype…
+- Structural Patterns (Cấu trúc): Adapter, Decorator, Facade, Composite, Proxy…
+- Behavioral Patterns (Hành vi): Observer, Strategy, Command, State, Template Method, Visitor…
+
+## Concept cần viết tài liệu
+- Value Object
+- DTO
+- Kỹ thuật restruct tái cấu trúc 1 object để né valiate, và giữ được tính bất biến immutable (private của entity)
+- over-engineering: thuộc phạm trù tâm lý trong kỹ thuật
+- Thắt cổ chai, cửa sổ vỡ
+- scatter cache
+- Cache nâng cao  Centralized Cache Facade hoặc Cache Namespace Manager.
+- bounded context - nhóm dữ liệu
+- In-memory cache + CacheManager
+- “Anti-Corruption Layer” (ACL) trong DDD
 
 
 ## Problems
@@ -20,6 +37,7 @@ Cách xử lý ban đầu:
 - Sử dụng WP CLI Script để tạo dữ liệu
 - Dùng PHP để viết thẳng Import
 - Sử dụng Import CSV
+- 
 
 **Difficulty**
 

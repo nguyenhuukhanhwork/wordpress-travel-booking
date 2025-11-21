@@ -56,3 +56,4 @@ RegistrarTagOptions::getInstance();
 new \TravelBooking\Presentation\Shortcodes\TourSearch();
 
 require_once __DIR__."/tools/reinstall-database.php";
+require_once __DIR__."/testing.php";

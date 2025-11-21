@@ -2,8 +2,10 @@
 
 namespace TravelBooking\Domain\Entity;
 
-use \DateTimeImmutable;
+use DateTimeImmutable;
+use TravelBooking\Config\Enum\TaxonomyName;
 use TravelBooking\Config\Enum\TourStatus;
+use TravelBooking\Domain\Service\TourTaxonomyReader;
 
 final class Tour
 {
@@ -11,64 +13,115 @@ final class Tour
         public readonly ?int               $id = null,
         public readonly string             $name,
         public readonly string             $tourCode,
-        public readonly bool               $tourFeatured,
-        public readonly int                $durationDays,
-        public readonly int                $durationNights,
+        public readonly bool               $isFeatured,
+        public readonly string             $durationSlug,        // 3n2d, 5n4d, 7n6d...
+        public readonly ?string            $linkedSlug = null,   // co / khong / null
         public readonly array              $gallery,
-        public readonly array              $tourType,
-        public readonly array              $tourLocation,
-        public readonly int                $tourRating,
+        public readonly string             $typeSlug,            // noi-dia, quoc-te, teambuilding...
+        public readonly string             $personRangeSlug,     // 2-4, 5-9, 10-15...
+        public readonly array              $locationSlugs,       // ['ha-noi', 'da-nang', 'phu-quoc']
+        public readonly string             $ratingSlug,          // 5-sao, rat-tot, tot...
         public readonly string             $featuredImage,
         public readonly DateTimeImmutable  $createdAt,
-        public readonly ?DateTimeImmutable  $updatedAt = null,
-        private TourStatus                 $status = TourStatus::OPEN,
-    )
+        public readonly ?DateTimeImmutable $updatedAt = null,
+        private readonly TourStatus        $status = TourStatus::OPEN,
+    ) {}
+
+    // ==================== GETTER ====================
+
+    public function id(): ?int                  { return $this->id; }
+    public function name(): string              { return $this->name; }
+    public function tourCode(): string          { return $this->tourCode; }
+    public function isFeatured(): bool          { return $this->isFeatured; }
+    public function featuredImage(): string    { return $this->featuredImage; }
+    public function createdAt(): DateTimeImmutable { return $this->createdAt; }
+    public function updatedAt(): ?DateTimeImmutable { return $this->updatedAt; }
+    public function status(): TourStatus        { return $this->status; }
+
+    // Slug thô
+    public function durationSlug(): string      { return $this->durationSlug; }
+    public function linkedSlug(): ?string       { return $this->linkedSlug; }
+    public function typeSlug(): string          { return $this->typeSlug; }
+    public function personRangeSlug(): string   { return $this->personRangeSlug; }
+    public function locationSlugs(): array      { return $this->locationSlugs; }
+    public function ratingSlug(): string        { return $this->ratingSlug; }
+
+    // ==================== Behavior ====================
+
+    public function durationLabel(TourTaxonomyReader $reader): ?string
     {
+        $taxonomy = TaxonomyName::TOUR_DURATION->value;
+        return $reader->getName($taxonomy, $this->durationSlug);
     }
 
-    // ========== GETTER ==========
-    public function id(): ?int {return $this->id;}
-    public function name(): string {return $this->name;}
-    public function tourCode(): string {return $this->tourCode;}
-    public function tourFeatured(): bool {return $this->tourFeatured;}
-    public function durationDays(): int {return $this->durationDays;}
-    public function durationNights(): int {return $this->durationNights;}
-    public function gallery(): array {return $this->gallery;}
-    public function tourType(): array {return $this->tourType;}
-    public function tourLocation(): array {return $this->tourLocation;}
-    public function tourRating(): float {return $this->tourRating;}
-    public function featureImage(): string {return $this->featuredImage;}
-    public function createAt(): DateTimeImmutable {return $this->createdAt;}
+    public function linkedLabel(TourTaxonomyReader $reader): ?string
+    {
+        $taxonomy = TaxonomyName::TOUR_LINKED->value;
+        return $this->linkedSlug ? $reader->getName($taxonomy, $this->linkedSlug) : null;
+    }
 
-    // Reconstruct
+    public function typeLabel(TourTaxonomyReader $reader): ?string
+    {
+        $taxonomy = TaxonomyName::TOUR_TYPE->value;
+        return $reader->getName($taxonomy, $this->typeSlug);
+    }
+
+    public function personRangeLabel(TourTaxonomyReader $reader): ?string
+    {
+        $taxonomy = TaxonomyName::TOUR_PERSON->value;
+        return $reader->getName($taxonomy, $this->personRangeSlug);
+    }
+
+    /** @return string[] ví dụ: ['Hà Nội', 'Đà Nẵng', 'Sapa'] */
+    public function locationLabels(TourTaxonomyReader $reader): array
+    {
+        $taxonomy = TaxonomyName::TOUR_LOCATION->value;
+        return array_values(array_filter(
+            array_map(fn($slug) => $reader->getName($taxonomy, $slug), $this->locationSlugs)
+        ));
+    }
+
+    public function ratingLabel(TourTaxonomyReader $reader): ?string
+    {
+        $taxonomy = TaxonomyName::TOUR_RATING->value;
+        return $reader->getName($taxonomy, $this->ratingSlug);
+    }
+
+    // ==================== RECONSTRUCT (Repository dùng) ====================
+
     public static function reconstruct(
-        int               $id,
-        string            $name,
-        string            $tourCode,
-        bool              $tourFeatured,
-        int               $durationDays,
-        int               $durationNights,
-        array             $gallery,
-        array             $tourType,
-        array             $tourLocation,
-        float             $tourRating,
-        string            $featureImage,
-        DateTimeImmutable $createAt
+        ?int                $id,
+        string              $name,
+        string              $tourCode,
+        bool                $isFeatured,
+        string              $durationSlug,
+        ?string             $linkedSlug,
+        array               $gallery,
+        string              $typeSlug,
+        string              $personRangeSlug,
+        array               $locationSlugs,
+        string              $ratingSlug,
+        string              $featuredImage,
+        DateTimeImmutable   $createdAt,
+        ?DateTimeImmutable  $updatedAt = null,
+        TourStatus          $status = TourStatus::OPEN,
     ): self {
         return new self(
-            id: $id,
-            name: $name,
-            tourCode: $tourCode,
-            tourFeatured: $tourFeatured,
-            durationDays: $durationDays,
-            durationNights: $durationNights,
-            gallery: $gallery,
-            tourType: $tourType,
-            tourLocation: $tourLocation,
-            tourRating: $tourRating,
-            featuredImage: $featureImage,
-            createdAt: $createAt
+            id:              $id,
+            name:            $name,
+            tourCode:        $tourCode,
+            isFeatured:      $isFeatured,
+            durationSlug:    $durationSlug,
+            linkedSlug:      $linkedSlug,
+            gallery:         $gallery,
+            typeSlug:        $typeSlug,
+            personRangeSlug: $personRangeSlug,
+            locationSlugs:   $locationSlugs,
+            ratingSlug:      $ratingSlug,
+            featuredImage:   $featuredImage,
+            createdAt:       $createdAt,
+            updatedAt:       $updatedAt,
+            status:          $status,
         );
     }
-
 }
