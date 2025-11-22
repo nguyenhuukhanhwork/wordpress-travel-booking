@@ -6,9 +6,7 @@
 
 use TravelBooking\Infrastructure\Database\BookingTable;
 
+$queryString = 'travel_show_data';
+
 add_action('plugins_loaded', function() {
-    BookingTable::getInstance();
-    \TravelBooking\Infrastructure\Database\CustomerTable::getInstance();
-    \TravelBooking\Infrastructure\Database\NotificationTable::getInstance();
-    \TravelBooking\Infrastructure\Database\BookingTable::getInstance();
 });

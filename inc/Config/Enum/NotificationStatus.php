@@ -8,4 +8,5 @@ Enum NotificationStatus: string
 {
     case SUCCESS = 'success';
     case ERROR = 'error';
+    case PENDING = 'pending';
 }

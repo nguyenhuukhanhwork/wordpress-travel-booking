@@ -80,11 +80,11 @@
 - Class `AdvancedSearchTourRestShortcode` đang thiếu Enqueue Script
 
 ## Nhiệm vụ tiếp theo
-- [] REST API lấy thẳng theo Name đừng chơi theo ID của Term TaxonomyE
-- [] Refactor Notification (Tách method nạp dữ liệu và gửi dữ liệu riêng ra)
+- [] REST API lấy thẳng theo Name đừng chơi theo ID của Term Taxonomy
+- [yes] Refactor Notification (Tách method nạp dữ liệu và gửi dữ liệu riêng ra)
 - [] Refactor Entity Status 
 - [] Entity không được chứa cái gì liên quan đến Database
-- [] Thêm Entity Tour
+- [yes] Thêm Entity Tour
 - [] 
 
 ## File Mới cần tìm hiểu của REST API:

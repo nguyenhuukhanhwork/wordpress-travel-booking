@@ -2,13 +2,12 @@
 
 function travel_booking_test_tour_entity(): void
 {
-    // Chỉ admin + có ?test_tour=1 mới chạy (an toàn tuyệt đối)
-    if (!isset($_GET['test_tour']) || !current_user_can('manage_options')) {
+    // Chỉ admin + có ?test_tour=1 mới chạy
+    if (!isset($_GET['test_tour_entity']) || !current_user_can('manage_options')) {
         return;
     }
 
-
-    // Tạo reader "ảo" ngay tại chỗ
+    // init Term Reader
     $reader = new \TravelBooking\Infrastructure\WordPress\Taxonomy\TermReader();
 
     // ==================== TẠO TOUR ====================
@@ -34,12 +33,10 @@ function travel_booking_test_tour_entity(): void
     $response = new \TravelBooking\Application\DTO\TourDetailResponse($tour);
     $data = $response->toArray($reader);
 
-    // ==================== IN RA ĐẸP NHƯ FRONTEND ====================
-
+    // ==================== Show data ====================
 
     echo '<div style="background:#161b22;padding:20px;border-radius:8px;margin-bottom:20px;">';
     echo '<pre style="font-size:17px;line-height:1.8;color:#fff;">';
-
     echo $response->toJson();
     echo '</pre>';
     echo '</div>';

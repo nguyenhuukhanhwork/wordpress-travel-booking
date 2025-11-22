@@ -1,17 +1,19 @@
 <?php
 
 namespace TravelBooking\Domain\Entity;
+use DateTimeImmutable;
+use TravelBooking\Config\Enum\NotificationStatus;
 
-final class Notification
+final readonly class Notification
 {
     private function __construct(
-        public readonly int    $id,
-        public readonly string $kind,
-        public readonly string $message,
-        public readonly string $status,
-        public readonly string $error,
-        public readonly string $sent_date,
-        public readonly string $create_date
+        public readonly ?int               $id,
+        public readonly string             $kind,
+        public readonly string             $message,
+        public readonly NotificationStatus $status,
+        public readonly ?string            $error,
+        public readonly ?DateTimeImmutable $sentDate,
+        public readonly ?DateTimeImmutable $createdDate
     )
     {
     }
@@ -20,37 +22,101 @@ final class Notification
     public function getId(): int {return $this->id;}
     public function getKind(): string {return $this->kind;}
     public function getMessage(): string {return $this->message;}
-    public function getStatus(): string {return $this->status;}
+    public function getStatus(): NotificationStatus {return $this->status;}
     public function getError(): string {return $this->error;}
-    public function getSentDate(): string {return $this->sent_date;}
-    public function getCreateDate(): string {return $this->create_date;}
-
-    // --- Business Logic
-    public function toArray(): array
-    {
-        return [
-            'id' => $this->id,
-            'kind' => $this->kind,
-            'message' => $this->message,
-            'status' => $this->status,
-            'error' => $this->error ?? null,
-            'sent_date' => $this->sent_date,
-            'create_date' => $this->create_date
-        ];
-    }
+    public function getSentDate(): DateTimeImmutable {return $this->sentDate;}
+    public function getCreatedDate(): DateTimeImmutable {return $this->createdDate;}
 
     // --- Factory
-    public function fromArray(array $data): Notification
-    {
+
+    /**
+     * Factory method to create new Notification
+     *
+     * @param string $kind
+     * @param string $message
+     * @param NotificationStatus $status
+     * @return self
+     */
+    public static function create(
+        string $kind,
+        string $message,
+        NotificationStatus $status,
+
+    ): self {
         return new self(
-            id: $data['id'] ?? 0,
-            kind: $data['kind'] ?? '',
-            message: $data['message'] ?? '',
-            status: $data['status'] ?? '',
-            error: $data['error'] ?? null,
-            sent_date: $data['sent_date'] ?? null,
-            create_date: $data['create_date'] ?? null
+            id: null,
+            kind: $kind,
+            message: $message,
+            status: $status,
+            error: null,
+            sentDate: null,
+            createdDate: null
         );
     }
 
+    /**
+     * Factory method for Mapper database -> Entity
+     * @param int|null $id
+     * @param string $kind
+     * @param string $message
+     * @param NotificationStatus $status
+     * @param string|null $error
+     * @param DateTimeImmutable|null $sentDate
+     * @param DateTimeImmutable|null $createdDate
+     * @return self
+     */
+    public static function reconstitute(
+        ?int $id,
+        string $kind,
+        string $message,
+        NotificationStatus $status,
+        ?string $error,
+        ?DateTimeImmutable $sentDate,
+        ?DateTimeImmutable $createdDate,
+    ): self {
+        return new self(
+            id: $id,
+            kind: $kind,
+            message: $message,
+            status: $status,
+            error: $error,
+            sentDate: $sentDate,
+            createdDate: $createdDate ?? new DateTimeImmutable(),
+        );
+    }
+
+    /**
+     * Change Status form Pending/Error -> Success
+     * @return self
+     */
+    public function markAsSent(): self
+    {
+        return new self(
+            id: $this->id,
+            kind: $this->kind,
+            message: $this->message,
+            status: NotificationStatus::SUCCESS,
+            error: null,
+            sentDate: new DateTimeImmutable(),
+            createdDate: $this->createdDate,
+        );
+    }
+
+    /**
+     * Change Status form Pending/Success -> Error
+     * @param string $error
+     * @return self
+     */
+    public function markAsError(string $error): self
+    {
+        return new self(
+            id: $this->id,
+            kind: $this->kind,
+            message: $this->message,
+            status: NotificationStatus::SUCCESS,
+            error: $error,
+            sentDate: new DateTimeImmutable(),
+            createdDate: $this->createdDate,
+        );
+    }
 }

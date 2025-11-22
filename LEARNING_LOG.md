@@ -22,7 +22,15 @@ Design Parrtern
 - bounded context - nhóm dữ liệu
 - In-memory cache + CacheManager
 - “Anti-Corruption Layer” (ACL) trong DDD
+- PURE DOMAIN OBJECT
+- pain point
 
+
+
+### Câu hỏi tôi đặt ra
+- Trong kiến trúc Clean Architecture, nếu Domain đảm nhiệm luôn Factory và Mapper thì lỡ công nghệ thay đổi nó có bị chết không ?
+- Nếu Entity là private thì làm sao để Factory khởi tạo được ? => Chỉ dùng cho project cực lớn chuẩn theo lý thuyết DDD
+- Nếu là dự án vừa vừa dưới 50 entity thì chơi theo Factory nằm trong Entity luôn
 
 ## Problems
 Format:  Problem → Difficulty → Solution → Learned

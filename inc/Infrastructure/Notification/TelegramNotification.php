@@ -2,13 +2,15 @@
 
 namespace TravelBooking\Infrastructure\Notification;
 
+use http\Exception\InvalidArgumentException;
 use TravelBooking\Infrastructure\Notification\BaseNotification;
+use WP_Error;
 
 final class TelegramNotification extends BaseNotification
 {
-    public string $token_api = '';
-    public string $chat_id = '';
-    public string $url = '';
+    private string $token_api = '';
+    private string $chat_id = '';
+    private string $url = '';
     private static ?self $instance = null;
 
     public static function getInstance(): self
@@ -35,9 +37,9 @@ final class TelegramNotification extends BaseNotification
     /**
      * Send Message to Telegram Group
      * @param string $message
-     * @return array|false|\WP_Error
+     * @return array|WP_Error
      */
-    public function send(string $message)
+    public function send(string $message): array|WP_Error
     {
         // Set up
         $this->setup();
@@ -48,8 +50,7 @@ final class TelegramNotification extends BaseNotification
 
         // Check Empty Message
         if (empty($message)) {
-            error_log("Telegram notification message can't be empty");
-            return false;
+            return throw new InvalidArgumentException("Telegram notification message can't be empty");
         }
 
         // Send data
@@ -60,12 +61,11 @@ final class TelegramNotification extends BaseNotification
                 'parse_mode' => 'HTML'
             ],
         ]);
-
     }
 
     /**
      * Write Send data to Database
-     * @param array|\WP_Error $response
+     * @param array|WP_Error $response
      * @param string $message
      * @return bool
      */

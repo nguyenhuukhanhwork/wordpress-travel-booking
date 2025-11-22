@@ -23,8 +23,6 @@ function test_tour_tax(): void
     );
 
     $data = $tour->typeLabel($term);
-
-    print_r($data);
 }
 
 add_action('init', 'test_tour_tax');

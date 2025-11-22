@@ -18,19 +18,13 @@ function test_use_case_booking_form_cf7(): void {
         'trbooking_tour_child' => '4',
         'trbooking_tour_note' => 'Testing Note'
     ];
-
-
-    $customer = CustomerRepository::getInstance();
-    $booking_repo = \TravelBooking\Infrastructure\Repository\BookingDataRepository::getInstance();
-    $submit = new SubmitBookingUseCase($customer, $booking_repo);
-    $submit->execute($mock_data);
-
 }
 
 add_action('init', function () {
     if (!isset($_GET['test_booking_use_case'])) {
         return;
     }
+
     test_use_case_booking_form_cf7();
 
     dd('DONE TESTING');
