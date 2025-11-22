@@ -18,15 +18,6 @@ final readonly class Notification
     {
     }
 
-    // --- Getter
-    public function getId(): int {return $this->id;}
-    public function getKind(): string {return $this->kind;}
-    public function getMessage(): string {return $this->message;}
-    public function getStatus(): NotificationStatus {return $this->status;}
-    public function getError(): string {return $this->error;}
-    public function getSentDate(): DateTimeImmutable {return $this->sentDate;}
-    public function getCreatedDate(): DateTimeImmutable {return $this->createdDate;}
-
     // --- Factory
 
     /**
@@ -113,7 +104,7 @@ final readonly class Notification
             id: $this->id,
             kind: $this->kind,
             message: $this->message,
-            status: NotificationStatus::SUCCESS,
+            status: NotificationStatus::ERROR,
             error: $error,
             sentDate: new DateTimeImmutable(),
             createdDate: $this->createdDate,
