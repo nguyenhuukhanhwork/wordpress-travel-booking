@@ -2,24 +2,24 @@
 
 namespace TravelBooking\Domain\Entity;
 
-use DateTimeImmutable;
 use TravelBooking\Config\Enum\CustomerSource;
 use TravelBooking\Config\Enum\CustomerType;
+use TravelBooking\Domain\ValueObject\DateTimeValue;
 
 final readonly class Customer
 {
     private function __construct(
-        public ?int               $id,
-        public string             $name,
-        public string             $email,
-        public string             $phone,
-        public ?string            $address = null,
-        public ?string            $note = null,
-        public ?string            $metadata = null,
-        public CustomerSource     $customerSource,
-        public CustomerType       $customerType,
-        public ?DateTimeImmutable $createdAt,
-        public ?DateTimeImmutable $updatedAt = null
+        public ?int           $id,
+        public string         $name,
+        public string         $email,
+        public string         $phone,
+        public ?string        $address = null,
+        public ?string        $note = null,
+        public ?string        $metadata = null,
+        public CustomerSource $customerSource,
+        public CustomerType   $customerType,
+        public ?DateTimeValue $createdAt,
+        public ?DateTimeValue $updatedAt = null
     )
     {
     }
@@ -37,12 +37,12 @@ final readonly class Customer
      * @return self
      */
     public static function create(
-        string             $name,
-        string             $phone,
-        ?string            $email = null,
-        ?string            $address = null,
-        CustomerSource     $customerSource = CustomerSource::WALK_IN,
-        CustomerType       $customerType = CustomerType::INDIVIDUAL,
+        string         $name,
+        string         $phone,
+        ?string        $email = null,
+        ?string        $address = null,
+        CustomerSource $customerSource = CustomerSource::WALK_IN,
+        CustomerType   $customerType = CustomerType::INDIVIDUAL,
     ): self
     {
         return new self(
@@ -53,7 +53,7 @@ final readonly class Customer
             address: $address,
             customerSource: $customerSource,
             customerType: $customerType,
-            createdAt: new DateTimeImmutable(),
+            createdAt: DateTimeValue::now(),
             updatedAt: null
         );
     }
@@ -69,8 +69,8 @@ final readonly class Customer
         ?string             $metadata,
         CustomerSource      $customerSource,
         CustomerType        $customerType,
-        DateTimeImmutable   $createdAt,
-        ?DateTimeImmutable  $updatedAt
+        DateTimeValue   $createdAt,
+        ?DateTimeValue  $updatedAt
     ): self {
         return new self(
             id: $id,
@@ -105,7 +105,7 @@ final readonly class Customer
             customerSource: $this->customerSource,
             customerType: $newType,
             createdAt: $this->createdAt,
-            updatedAt: new DateTimeImmutable(),
+            updatedAt: DateTimeValue::now(),
         );
     }
 
@@ -125,7 +125,7 @@ final readonly class Customer
             customerSource: $newSource,
             customerType: $this->customerType,
             createdAt: $this->createdAt,
-            updatedAt: new DateTimeImmutable(),
+            updatedAt: DateTimeValue::now(),
         );
     }
 

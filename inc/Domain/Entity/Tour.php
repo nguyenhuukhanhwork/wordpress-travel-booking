@@ -6,25 +6,26 @@ use DateTimeImmutable;
 use TravelBooking\Config\Enum\TaxonomyName;
 use TravelBooking\Config\Enum\TourStatus;
 use TravelBooking\Domain\Service\TourTaxonomyReader;
+use TravelBooking\Domain\ValueObject\DateTimeValue;
 
 final readonly class  Tour
 {
     private function __construct(
-        public ?int               $id = null,
-        public string             $name,
-        public string             $tourCode,
-        public bool               $isFeatured,
-        public string             $durationSlug,        // 3n2d, 5n4d, 7n6d...
-        public ?string            $linkedSlug = null,   // co / khong / null
-        public array              $gallery,
-        public string             $typeSlug,            // noi-dia, quoc-te, teambuilding...
-        public string             $personRangeSlug,     // 2-4, 5-9, 10-15...
-        public array              $locationSlugs,       // ['ha-noi', 'da-nang', 'phu-quoc']
-        public string             $ratingSlug,          // 5-sao, rat-tot, tot...
-        public string             $featuredImage,
-        public DateTimeImmutable  $createdAt,
-        public ?DateTimeImmutable $updatedAt = null,
-        private TourStatus        $status = TourStatus::OPEN,
+        public ?int           $id = null,
+        public string         $name,
+        public string         $tourCode,
+        public bool           $isFeatured,
+        public string         $durationSlug,        // 3n2d, 5n4d, 7n6d...
+        public ?string        $linkedSlug = null,   // co / khong / null
+        public array          $gallery,
+        public string         $typeSlug,            // noi-dia, quoc-te, teambuilding...
+        public string         $personRangeSlug,     // 2-4, 5-9, 10-15...
+        public array          $locationSlugs,       // ['ha-noi', 'da-nang', 'phu-quoc']
+        public string         $ratingSlug,          // 5-sao, rat-tot, tot...
+        public string         $featuredImage,
+        public DateTimeValue  $createdAt,
+        public ?DateTimeValue $updatedAt = null,
+        private TourStatus    $status = TourStatus::OPEN,
     ) {}
 
     // ==================== GETTER ====================
@@ -91,21 +92,21 @@ final readonly class  Tour
     // ==================== RECONSTRUCT (Repository dùng) ====================
 
     public static function reconstruct(
-        ?int                $id,
-        string              $name,
-        string              $tourCode,
-        bool                $isFeatured,
-        string              $durationSlug,
-        ?string             $linkedSlug,
-        array               $gallery,
-        string              $typeSlug,
-        string              $personRangeSlug,
-        array               $locationSlugs,
-        string              $ratingSlug,
-        string              $featuredImage,
-        DateTimeImmutable   $createdAt,
-        ?DateTimeImmutable  $updatedAt = null,
-        TourStatus          $status = TourStatus::OPEN,
+        ?int           $id,
+        string         $name,
+        string         $tourCode,
+        bool           $isFeatured,
+        string         $durationSlug,
+        ?string        $linkedSlug,
+        array          $gallery,
+        string         $typeSlug,
+        string         $personRangeSlug,
+        array          $locationSlugs,
+        string         $ratingSlug,
+        string         $featuredImage,
+        DateTimeValue  $createdAt,
+        ?DateTimeValue $updatedAt = null,
+        TourStatus     $status = TourStatus::OPEN,
     ): self {
         return new self(
             id:              $id,

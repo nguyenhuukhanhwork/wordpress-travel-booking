@@ -7,7 +7,7 @@
 namespace TravelBooking\Domain\Mapper;
 use TravelBooking\Domain\Entity\Tour;
 use TravelBooking\Config\Enum\TourStatus;
-use DateTimeImmutable;
+use TravelBooking\Domain\ValueObject\DateTimeValue;
 final class TourMapper
 {
     public static function fromRow(array $row): Tour
@@ -25,8 +25,8 @@ final class TourMapper
             locationSlugs: $row['location_slugs'],
             ratingSlug: $row['rating_slug'],
             featuredImage: $row['featured_image'],
-            createdAt: new DateTimeImmutable($row['created_at']) ?? new \DateTimeImmutable(),
-            updatedAt: new DateTimeImmutable($row['updated_at']) ?? new \DateTimeImmutable(),
+            createdAt: DateTimeValue::fromString($row['created_at']),
+            updatedAt: DateTimeValue::fromString($row['updated_at']),
             status: TourStatus::tryFrom($row['status']) ?? TourStatus::OPEN,
         );
     }

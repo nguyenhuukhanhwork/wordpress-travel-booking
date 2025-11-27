@@ -4,32 +4,33 @@ namespace TravelBooking\Domain\Entity;
 
 use DateTimeImmutable;
 use TravelBooking\Config\Enum\BookingStatus;
+use TravelBooking\Domain\ValueObject\DateTimeValue;
 
 #[Entity]
 final readonly class Booking
 {
     private function __construct(
-        public ?int               $id = null,
-        public ?string            $code = null,
-        public string             $customerId,
-        public string             $tourName,
-        public DateTimeImmutable  $startDate,
-        public int                $totalPersons,
-        public ?string            $note,
-        public DateTimeImmutable  $createdAt,
-        public ?DateTimeImmutable $updatedAt = null,
-        public BookingStatus      $status = BookingStatus::PENDING
+        public ?int           $id = null,
+        public ?string        $code = null,
+        public string         $customerId,
+        public string         $tourName,
+        public DateTimeValue  $startDate,
+        public int            $totalPersons,
+        public ?string        $note,
+        public DateTimeValue  $createdAt,
+        public ?DateTimeValue $updatedAt = null,
+        public BookingStatus  $status = BookingStatus::PENDING
     )
     {
     }
 
     public static function create(
-        int               $customerId,
-        string            $tourName,
-        DateTimeImmutable $startDate,
-        int               $adults,
-        int               $children,
-        ?string           $note = null,
+        int           $customerId,
+        string        $tourName,
+        DateTimeValue $startDate,
+        int           $adults,
+        int           $children,
+        ?string       $note = null,
     ): self
     {
         return new self(
@@ -40,8 +41,8 @@ final readonly class Booking
             startDate: $startDate,
             totalPersons: $adults + $children,
             note: $note,
-            createdAt: new DateTimeImmutable(),
-            updatedAt: new DateTimeImmutable(),
+            createdAt: DateTimeValue::now(),
+            updatedAt: DateTimeValue::now(),
             status: BookingStatus::PENDING
         );
     }
