@@ -21,13 +21,13 @@ use TravelBooking\Config\Enum\NotificationStatus;
 final readonly class Notification
 {
     private function __construct(
-        public readonly ?int               $id,
-        public readonly string             $kind,
-        public readonly string             $message,
-        public readonly NotificationStatus $status,
-        public readonly ?string            $error,
-        public readonly ?DateTimeImmutable $sentDate,
-        public readonly ?DateTimeImmutable $createdDate
+        public ?int               $id,
+        public string             $kind,
+        public string             $message,
+        public NotificationStatus $status,
+        public ?string            $error,
+        public ?DateTimeImmutable $sentDate,
+        public ?DateTimeImmutable $createdDate
     )
     {
     }

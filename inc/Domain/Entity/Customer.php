@@ -9,17 +9,17 @@ use TravelBooking\Config\Enum\CustomerType;
 final readonly class Customer
 {
     private function __construct(
-        public readonly ?int               $id,
-        public readonly string             $name,
-        public readonly string             $email,
-        public readonly string             $phone,
-        public readonly ?string            $address = null,
-        public readonly ?string            $note = null,
-        public readonly ?string            $metadata = null,
-        public readonly CustomerSource     $customerSource,
-        public readonly CustomerType       $customerType,
-        public readonly ?DateTimeImmutable $createdAt,
-        public readonly ?DateTimeImmutable $updatedAt = null
+        public ?int               $id,
+        public string             $name,
+        public string             $email,
+        public string             $phone,
+        public ?string            $address = null,
+        public ?string            $note = null,
+        public ?string            $metadata = null,
+        public CustomerSource     $customerSource,
+        public CustomerType       $customerType,
+        public ?DateTimeImmutable $createdAt,
+        public ?DateTimeImmutable $updatedAt = null
     )
     {
     }

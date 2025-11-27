@@ -7,24 +7,24 @@ use TravelBooking\Config\Enum\TaxonomyName;
 use TravelBooking\Config\Enum\TourStatus;
 use TravelBooking\Domain\Service\TourTaxonomyReader;
 
-final class Tour
+final readonly class  Tour
 {
     private function __construct(
-        public readonly ?int               $id = null,
-        public readonly string             $name,
-        public readonly string             $tourCode,
-        public readonly bool               $isFeatured,
-        public readonly string             $durationSlug,        // 3n2d, 5n4d, 7n6d...
-        public readonly ?string            $linkedSlug = null,   // co / khong / null
-        public readonly array              $gallery,
-        public readonly string             $typeSlug,            // noi-dia, quoc-te, teambuilding...
-        public readonly string             $personRangeSlug,     // 2-4, 5-9, 10-15...
-        public readonly array              $locationSlugs,       // ['ha-noi', 'da-nang', 'phu-quoc']
-        public readonly string             $ratingSlug,          // 5-sao, rat-tot, tot...
-        public readonly string             $featuredImage,
-        public readonly DateTimeImmutable  $createdAt,
-        public readonly ?DateTimeImmutable $updatedAt = null,
-        private readonly TourStatus        $status = TourStatus::OPEN,
+        public ?int               $id = null,
+        public string             $name,
+        public string             $tourCode,
+        public bool               $isFeatured,
+        public string             $durationSlug,        // 3n2d, 5n4d, 7n6d...
+        public ?string            $linkedSlug = null,   // co / khong / null
+        public array              $gallery,
+        public string             $typeSlug,            // noi-dia, quoc-te, teambuilding...
+        public string             $personRangeSlug,     // 2-4, 5-9, 10-15...
+        public array              $locationSlugs,       // ['ha-noi', 'da-nang', 'phu-quoc']
+        public string             $ratingSlug,          // 5-sao, rat-tot, tot...
+        public string             $featuredImage,
+        public DateTimeImmutable  $createdAt,
+        public ?DateTimeImmutable $updatedAt = null,
+        private TourStatus        $status = TourStatus::OPEN,
     ) {}
 
     // ==================== GETTER ====================
