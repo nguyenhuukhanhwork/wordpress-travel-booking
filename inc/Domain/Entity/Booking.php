@@ -5,19 +5,20 @@ namespace TravelBooking\Domain\Entity;
 use DateTimeImmutable;
 use TravelBooking\Config\Enum\BookingStatus;
 
-final class Booking
+#[Entity]
+final readonly class Booking
 {
     private function __construct(
-        public readonly ?int               $id = null,
-        public readonly ?string            $code = null,
-        public readonly string             $customerId,
-        public readonly string             $tourName,
-        public readonly DateTimeImmutable  $startDate,
-        public readonly int                $totalPersons,
-        public readonly ?string            $note,
-        public readonly DateTimeImmutable  $createAt,
-        public readonly ?DateTimeImmutable $updateAt = null,
-        public BookingStatus               $status = BookingStatus::PENDING
+        public ?int               $id = null,
+        public ?string            $code = null,
+        public string             $customerId,
+        public string             $tourName,
+        public DateTimeImmutable  $startDate,
+        public int                $totalPersons,
+        public ?string            $note,
+        public DateTimeImmutable  $createdAt,
+        public ?DateTimeImmutable $updatedAt = null,
+        public BookingStatus      $status = BookingStatus::PENDING
     )
     {
     }
@@ -39,8 +40,8 @@ final class Booking
             startDate: $startDate,
             totalPersons: $adults + $children,
             note: $note,
-            createAt: new DateTimeImmutable(),
-            updateAt: new DateTimeImmutable(),
+            createdAt: new DateTimeImmutable(),
+            updatedAt: new DateTimeImmutable(),
             status: BookingStatus::PENDING
         );
     }
@@ -60,7 +61,7 @@ final class Booking
         ?DateTimeImmutable  $updatedAt,
         BookingStatus       $status,
     ): self {
-        $instance = new self(
+        return new self(
             id:           $id,
             code:         $code,
             customerId:   $customerId,
@@ -68,19 +69,34 @@ final class Booking
             startDate:    $startDate,
             totalPersons: $totalPersons,
             note:         $note,
-            createAt:    $createdAt,
-            updateAt:    $updatedAt,
+            createdAt:    $createdAt,
+            updatedAt:    $updatedAt,
+            status:       $status
         );
-        $instance->status = $status; // Reflection hoặc private setter nếu cần
-        return $instance;
     }
 
     /**
      * Behavior
      */
-    private function changeStatus(BookingStatus $status): void
-    {
-        $this->status = $status;
-    }
 
+    /**
+     * Change Booking Status
+     * @param BookingStatus $status
+     * @return self
+     */
+    public function changeStatus(BookingStatus $status): self
+    {
+        return new self(
+            id: $this->id,
+            code: $this->code,
+            customerId: $this->customerId,
+            tourName: $this->tourName,
+            startDate: $this->startDate,
+            totalPersons: $this->totalPersons,
+            note: $this->note,
+            createdAt: $this->createdAt,
+            updatedAt: $this->updatedAt,
+            status: $status
+        );
+    }
 }

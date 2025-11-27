@@ -14,6 +14,7 @@ require_once __DIR__.'/vendor/autoload.php';
 /** Load Const */
 require_once __DIR__.'/constant.php';
 
+date_default_timezone_set('Asia/Ho_Chi_Minh');
 
 // REST API Controller
 TourNameSearchRestController::getInstance();
