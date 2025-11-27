@@ -12,5 +12,20 @@ enum CustomerType: string
     case INFLUENCER      = 'influencer';     // KOL, có mã giảm riêng
     case VIP             = 'vip';            // Khách VIP, chăm sóc đặc biệt
     case BLACKLIST       = 'blacklist';      // Cấm đặt tour (spam, quỵt tiền...)
-    case STAFF           = 'staff';         // Nhân viên công ty (giảm giá nội bộ)
+    case STAFF           = 'staff';           // Nhân viên công ty (giảm giá nội bộ)
+
+    public function label(): string
+    {
+        return match ($this) {
+            self::INDIVIDUAL   => "Khách lẻ, bình thường",
+            self::FAMILY       => "Gia đình, nhóm nhỏ",
+            self::GROUP        => "Đoàn ≥10 người",
+            self::CORPORATE    => "Công ty, doanh nghiệp",
+            self::TRAVEL_AGENT => "Đại lý du lịch",
+            self::INFLUENCER   => "KOL, có mã giảm riêng",
+            self::VIP          => "Khách VIP, chăm sóc đặc biệt",
+            self::BLACKLIST    => "Cấm đặt tour",
+            self::STAFF        => "Nhân viên công ty",
+        };
+    }
 }

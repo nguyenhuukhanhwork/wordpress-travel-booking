@@ -6,7 +6,7 @@ namespace TravelBooking\Domain\ValueObject;
 use DateTimeImmutable;
 use DateTimeZone;
 use \InvalidArgumentException;
-final readonly class DateTimeValue
+final readonly class DateTimeVO
 {
     private const NULL_DATE = '1970-01-01 00:00:00';
     private function __construct(private DateTimeImmutable $value) {}

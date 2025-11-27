@@ -4,7 +4,7 @@ namespace TravelBooking\Domain\Entity;
 
 use TravelBooking\Config\Enum\CustomerSource;
 use TravelBooking\Config\Enum\CustomerType;
-use TravelBooking\Domain\ValueObject\DateTimeValue;
+use TravelBooking\Domain\ValueObject\DateTimeVO;
 
 final readonly class Customer
 {
@@ -18,8 +18,8 @@ final readonly class Customer
         public ?string        $metadata = null,
         public CustomerSource $customerSource,
         public CustomerType   $customerType,
-        public ?DateTimeValue $createdAt,
-        public ?DateTimeValue $updatedAt = null
+        public ?DateTimeVO    $createdAt,
+        public ?DateTimeVO    $updatedAt = null
     )
     {
     }
@@ -53,24 +53,24 @@ final readonly class Customer
             address: $address,
             customerSource: $customerSource,
             customerType: $customerType,
-            createdAt: DateTimeValue::now(),
+            createdAt: DateTimeVO::now(),
             updatedAt: null
         );
     }
 
     // Load từ DB – chỉ Mapper dùng
     public static function reconstitute(
-        ?int                $id,
-        string              $name,
-        ?string             $email,
-        string              $phone,
-        ?string             $address,
-        ?string             $note,
-        ?string             $metadata,
-        CustomerSource      $customerSource,
-        CustomerType        $customerType,
-        DateTimeValue   $createdAt,
-        ?DateTimeValue  $updatedAt
+        ?int           $id,
+        string         $name,
+        ?string        $email,
+        string         $phone,
+        ?string        $address,
+        ?string        $note,
+        ?string        $metadata,
+        CustomerSource $customerSource,
+        CustomerType   $customerType,
+        DateTimeVO     $createdAt,
+        ?DateTimeVO    $updatedAt
     ): self {
         return new self(
             id: $id,
@@ -105,7 +105,7 @@ final readonly class Customer
             customerSource: $this->customerSource,
             customerType: $newType,
             createdAt: $this->createdAt,
-            updatedAt: DateTimeValue::now(),
+            updatedAt: DateTimeVO::now(),
         );
     }
 
@@ -125,7 +125,7 @@ final readonly class Customer
             customerSource: $newSource,
             customerType: $this->customerType,
             createdAt: $this->createdAt,
-            updatedAt: DateTimeValue::now(),
+            updatedAt: DateTimeVO::now(),
         );
     }
 

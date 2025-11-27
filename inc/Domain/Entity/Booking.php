@@ -4,33 +4,33 @@ namespace TravelBooking\Domain\Entity;
 
 use DateTimeImmutable;
 use TravelBooking\Config\Enum\BookingStatus;
-use TravelBooking\Domain\ValueObject\DateTimeValue;
+use TravelBooking\Domain\ValueObject\DateTimeVO;
 
 #[Entity]
 final readonly class Booking
 {
     private function __construct(
-        public ?int           $id = null,
-        public ?string        $code = null,
-        public string         $customerId,
-        public string         $tourName,
-        public DateTimeValue  $startDate,
-        public int            $totalPersons,
-        public ?string        $note,
-        public DateTimeValue  $createdAt,
-        public ?DateTimeValue $updatedAt = null,
-        public BookingStatus  $status = BookingStatus::PENDING
+        public ?int          $id = null,
+        public ?string       $code = null,
+        public string        $customerId,
+        public string        $tourName,
+        public DateTimeVO    $startDate,
+        public int           $totalPersons,
+        public ?string       $note,
+        public DateTimeVO    $createdAt,
+        public ?DateTimeVO   $updatedAt = null,
+        public BookingStatus $status = BookingStatus::PENDING
     )
     {
     }
 
     public static function create(
-        int           $customerId,
-        string        $tourName,
-        DateTimeValue $startDate,
-        int           $adults,
-        int           $children,
-        ?string       $note = null,
+        int        $customerId,
+        string     $tourName,
+        DateTimeVO $startDate,
+        int        $adults,
+        int        $children,
+        ?string    $note = null,
     ): self
     {
         return new self(
@@ -41,8 +41,8 @@ final readonly class Booking
             startDate: $startDate,
             totalPersons: $adults + $children,
             note: $note,
-            createdAt: DateTimeValue::now(),
-            updatedAt: DateTimeValue::now(),
+            createdAt: DateTimeVO::now(),
+            updatedAt: DateTimeVO::now(),
             status: BookingStatus::PENDING
         );
     }

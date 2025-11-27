@@ -227,3 +227,6 @@ Dễ mở rộng khi có 10+ trạng thái?,Khó,Yes Rất dễ (tập trung h�
 
 - Generic Collection PHP 8.2
 - TypedID + Generic collection
+
+## Sử dụng Value Object
+- Đây là thành phần quan trọng, chịu trách nhiệm validate các các giá trị quan

@@ -16,7 +16,7 @@
 
 namespace TravelBooking\Domain\Entity;
 use TravelBooking\Config\Enum\NotificationStatus;
-use TravelBooking\Domain\ValueObject\DateTimeValue;
+use TravelBooking\Domain\ValueObject\DateTimeVO;
 
 final readonly class Notification
 {
@@ -26,8 +26,8 @@ final readonly class Notification
         public string             $message,
         public NotificationStatus $status,
         public ?string            $error,
-        public ?DateTimeValue     $sentDate,
-        public ?DateTimeValue     $createdDate
+        public ?DateTimeVO        $sentDate,
+        public ?DateTimeVO        $createdDate
     )
     {
     }
@@ -54,8 +54,8 @@ final readonly class Notification
             message: $message,
             status: $status,
             error: null,
-            sentDate: $sendDate ? DateTimeValue::fromString($sendDate) : DateTimeValue::now(),
-            createdDate: DateTimeValue::now(),
+            sentDate: $sendDate ? DateTimeVO::fromString($sendDate) : DateTimeVO::now(),
+            createdDate: DateTimeVO::now(),
         );
     }
 
@@ -66,18 +66,18 @@ final readonly class Notification
      * @param string $message
      * @param NotificationStatus $status
      * @param string|null $error
-     * @param DateTimeValue|null $sentDate
-     * @param DateTimeValue|null $createdDate
+     * @param DateTimeVO|null $sentDate
+     * @param DateTimeVO|null $createdDate
      * @return self
      */
     public static function reconstitute(
-        ?int $id,
-        string $kind,
-        string $message,
+        ?int               $id,
+        string             $kind,
+        string             $message,
         NotificationStatus $status,
-        ?string $error,
-        ?DateTimeValue $sentDate,
-        ?DateTimeValue $createdDate,
+        ?string            $error,
+        ?DateTimeVO        $sentDate,
+        ?DateTimeVO        $createdDate,
     ): self {
         return new self(
             id: $id,
@@ -86,7 +86,7 @@ final readonly class Notification
             status: $status,
             error: $error,
             sentDate: $sentDate,
-            createdDate: $createdDate ?? DateTimeValue::now(),
+            createdDate: $createdDate ?? DateTimeVO::now(),
         );
     }
 
@@ -102,7 +102,7 @@ final readonly class Notification
             message: $this->message,
             status: NotificationStatus::SUCCESS,
             error: null,
-            sentDate: DateTimeValue::fromString($this->sentDate) ?? DateTimeValue::now(),
+            sentDate: DateTimeVO::fromString($this->sentDate) ?? DateTimeVO::now(),
             createdDate: $this->createdDate,
         );
     }
@@ -120,7 +120,7 @@ final readonly class Notification
             message: $this->message,
             status: NotificationStatus::ERROR,
             error: $error,
-            sentDate: DateTimeValue::fromString($this->sentDate) ?? DateTimeValue::now(),
+            sentDate: DateTimeVO::fromString($this->sentDate) ?? DateTimeVO::now(),
             createdDate: $this->createdDate,
         );
     }
