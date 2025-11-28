@@ -18,20 +18,7 @@ use TravelBooking\Domain\Enum\NotificationStatus;
 
 final class NotificationMapper
 {
-    public static function fromRow(array $row): Notification
-    {
-        return Notification::reconstitute(
-            id: isset($row['id']) ? (int) $row['id'] : null,
-            kind: $row['kind'],
-            message: $row['message'],
-            status: NotificationStatus::from($row['status']),
-            error: $row['error'] ?? null,
-            sentDate: isset($row['sent_date']) ? new DateTimeImmutable($row['sent_date']) : null,
-            createdDate: isset($row['created_date']) ? new DateTimeImmutable($row['created_date']) : new DateTimeImmutable(),
-        );
-    }
-
-    /**
+      /**
      * To array for insert to database
      * @param Notification $notification
      * @return array
